@@ -11,6 +11,6 @@ resource "aws_lambda_function" "gardner_lambda" {
   description       = "Will send a random gardner gif to Discord every day at 9 AM EST"
   role              = aws_iam_role.gardner_lambda.arn
   handler           = "gardnerminshewbot.lambda_handler"
-  runtime           = "python3.8"
+  runtime           = "python3.10"
   timeout           = "30"
 }
