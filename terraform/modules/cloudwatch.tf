@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_rule" "gardner_daily" {
-  name                = "daily"
+  name                = "gardner-daily"
   description         = "Fires at 9 AM - currently using ${var.savings_time_notation}"
   schedule_expression = "cron(0 ${var.hour} * * ? *)" #this is 9 AM, either in EST or EDT
 }
