@@ -97,6 +97,26 @@ class Gardner:
         else:
             message = None
 
+    def birthday(self):
+        r = requests.get('https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/births/{}/{}'.format(self.m, self.d))
+        logging.info('response code: %s', r.status_code)
+
+        if r.status_code == 200:
+            birthday_list = []
+            for b in (r.json()['births']):
+                if 'American football player' in b['text']:
+                    birthday_list.append(b)
+            
+            if birthday_list:
+                birthday = random.choice(birthday_list)
+                message = 'Happy {} {}! Today\'s birthday is: \n{}\n{}'.format(self.dw, self.mention, birthday['text'], birthday['pages'][0]['content_urls']['desktop']['page'])
+                return(message)
+            else:
+                logging.info('No NFL birthdays today - will attempt a different call.')
+                message = None
+        else:
+            message = None
+
     def riddle_me_this(self):
         r = requests.get('https://riddles-api.vercel.app/random')
         logging.info('response code: %s', r.status_code)
@@ -112,7 +132,7 @@ class Gardner:
 
     def get(self):
         garf_done = False
-        num_list = [0, 1, 2, 3]
+        num_list = [0, 1, 2, 3, 4]
         while not garf_done:
             if not num_list:
                 logging.error('List is empty - all calls failed. Exiting out.')
@@ -127,11 +147,14 @@ class Gardner:
                 logging.info('Attempting greeting call')
                 our_message = self.greeting()
             elif todays_choice == 2:
-                logging.info('Attempting hoiday call')
+                logging.info('Attempting holiday call')
                 our_message = self.national_what_day()
-            else:
+            elif todays_choice == 3:
                 logging.info('Attempting riddle call')
                 our_message = self.riddle_me_this()
+            else:
+                logging.info('Attempting birthday call')
+                our_message = self.birthday()
 
             if our_message != None:
                 return our_message
