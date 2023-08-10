@@ -34,7 +34,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_PYTHON: true
           MULTI_STATUS: false
-          FILTER_REGEX_INCLUDE: "garfieldbot/*"
+          FILTER_REGEX_INCLUDE: "gardnerminshewbot/*"
         continue-on-error: true
 
       - name: Clean up workspace
